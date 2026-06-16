@@ -10,3 +10,16 @@ resource "azurerm_resource_group" "example" {
   }
 
 }
+
+module "vnets" {
+  source = "./modules/virtual-network"
+
+  for_each = var.virtual_networks
+
+  name                = each.value.name
+  location            = var.location
+  resource_group_name = azurerm_resource_group.example.name
+  address_space       = each.value.address_space
+  tags                = each.value
+}
+
