@@ -1,5 +1,5 @@
 resource "azurerm_resource_group" "example" {
-  name     = "Name of the RG"
+  name     = "rg-landing-zone-dev-westeurope"
   location = "West Europe"
 
 
