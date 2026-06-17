@@ -34,3 +34,14 @@ variable "virtual_networks" {
     }
   }
 }
+
+
+variable "subnets" {
+  description = "Subnets to create"
+  type = map(object({
+    name             = string
+    virtual_network  = string
+    address_prefixes = list(string)
+  }))
+}
+
