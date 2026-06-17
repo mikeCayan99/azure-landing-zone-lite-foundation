@@ -10,6 +10,18 @@ variable "environment" {
   default     = "dev"
 }
 
+variable "tags" {
+  description = "Default tags applied to all resources"
+  type        = map(string)
+
+  default = {
+    environment = "dev"
+    project     = "azure-landing-zone-foundation"
+    managed_by  = "terraform"
+  }
+}
+
+
 variable "virtual_networks" {
   description = "Virtual networks to create"
   type = map(object({
