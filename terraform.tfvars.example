@@ -1,0 +1,8 @@
+location    = "westeurope"
+environment = "dev"
+
+tags = {
+  environment = "dev"
+  project     = "azure-landing-zone-foundation"
+  managed_by  = "terraform"
+}
