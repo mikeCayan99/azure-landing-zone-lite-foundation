@@ -1,4 +1,4 @@
-resource "azurerm_resource_group" "rg-group" {
+resource "azurerm_resource_group" "main" {
   name     = "rg-landing-zone-dev-westeurope"
   location = "West Europe"
 
@@ -18,9 +18,9 @@ module "vnets" {
 
   name                = each.value.name
   location            = var.location
-  resource_group_name = azurerm_resource_group.rg-group.name
+  resource_group_name = azurerm_resource_group.main.name
   address_space       = each.value.address_space
-  tags                = each.value
+  tags                = var.tags
 }
 
 module "subnets" {
@@ -29,7 +29,7 @@ module "subnets" {
   for_each = var.subnets
 
   name                 = each.value.name
-  resource_group_name  = azurerm_resource_group.rg-group.name
+  resource_group_name  = azurerm_resource_group.main.name
   virtual_network_name = module.vnets[each.value.virtual_network].name
   address_prefixes     = each.value.address_prefixes
 
