@@ -57,3 +57,17 @@ variable "subnets" {
   }))
 }
 
+variable "network_security_groups" {
+  description = "Network Security Groups to create"
+  type = map(object({
+    name = string
+  }))
+}
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+}
+
+
+

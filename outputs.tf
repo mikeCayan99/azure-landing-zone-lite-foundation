@@ -17,3 +17,9 @@ output "subnet_ids" {
     for key, subnet in module.subnets : key => subnet.id
   }
 }
+
+output "virtual_network_names" {
+  value = {
+    for key, vnet in module.vnets : key => vnet.name
+  }
+}
