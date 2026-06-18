@@ -34,3 +34,15 @@ module "subnets" {
   address_prefixes     = each.value.address_prefixes
 
 }
+
+module "network_security_groups" {
+  source = "./modules/network-security-group"
+
+  for_each = var.network_security_groups
+
+  name                = each.value.name
+  location            = var.location
+  resource_group_name = azurerm_resource_group.main.name
+  tags                = var.tags
+}
+

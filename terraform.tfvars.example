@@ -6,3 +6,46 @@ tags = {
   project     = "azure-landing-zone-foundation"
   managed_by  = "terraform"
 }
+
+network_security_groups = {
+  hub = {
+    name = "nsg-hub-dev-westeurope"
+  }
+
+  app = {
+    name = "nsg-app-dev-westeurope"
+  }
+
+  data = {
+    name = "nsg-data-dev-westeurope"
+  }
+}
+
+subnets = {
+  hub_shared = {
+    name             = "snet-hub-shared-dev-westeurope"
+    virtual_network  = "hub"
+    address_prefixes = ["10.0.1.0/24"]
+  }
+
+  app = {
+    name             = "snet-app-dev-westeurope"
+    virtual_network  = "spoke_workload"
+    address_prefixes = ["10.1.1.0/24"]
+  }
+
+  data = {
+    name             = "snet-data-dev-westeurope"
+    virtual_network  = "spoke_workload"
+    address_prefixes = ["10.1.2.0/24"]
+  }
+
+  shared_services = {
+    name             = "snet-shared-services-dev-westeurope"
+    virtual_network  = "spoke_shared"
+    address_prefixes = ["10.2.1.0/24"]
+  }
+}
+
+subscription_id = "00000000-0000-0000-0000-000000000000"
+
