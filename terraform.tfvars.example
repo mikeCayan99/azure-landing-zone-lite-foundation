@@ -49,3 +49,20 @@ subnets = {
 
 subscription_id = "00000000-0000-0000-0000-000000000000"
 
+subnet_nsg_association = {
+  hub_shared = {
+    subnet_key = "hub_shared"
+    nsg_key = "hub"
+  }
+
+app = {
+  subnet_key = "app"
+  nsg_key = "app"
+}
+
+ data = {
+    subnet_key = "data"
+    nsg_key    = "data"
+  }
+
+}
