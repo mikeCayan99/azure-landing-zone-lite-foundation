@@ -90,6 +90,23 @@ variable "vnet_peerings" {
   }))
 }
 
+variable "log_analytics_workspace_name" {
+  description = "Name of the Log Analytics Workspace"
+  type        = string
+}
+
+variable "log_analytics_workspace_sku" {
+  description = "SKU of the Log Analytics Workspace"
+  type        = string
+  default     = "PerGB2018"
+}
+
+variable "log_analytics_workspace_retention_in_days" {
+  description = "Retention period in days for Log Analytics data"
+  type        = number
+  default     = 30
+}
+
 
 
 

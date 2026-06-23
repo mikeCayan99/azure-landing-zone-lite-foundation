@@ -71,3 +71,13 @@ module "vnet_peering" {
   use_remote_gateways          = each.value.use_remote_gateways
 }
 
+module "log_analytics" {
+  source = "./modules/log-analytics"
+
+  name                = var.log_analytics_workspace_name
+  location            = var.location
+  resource_group_name = azurerm_resource_group.main.name
+  sku                 = var.log_analytics_workspace_sku
+  retention_in_days   = var.log_analytics_workspace_retention_in_days
+  tags                = var.tags
+} 
