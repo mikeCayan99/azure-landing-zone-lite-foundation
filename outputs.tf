@@ -35,3 +35,15 @@ output "vnet_peering_ids" {
     for key, peering in module.vnet_peering : key => peering.id
   }
 }
+
+output "id" {
+  value = azurerm_log_analytics_workspace.workspace.id
+}
+
+output "name" {
+  value = azurerm_log_analytics_workspace.workspace.name
+}
+
+output "workspace_id" {
+  value = azurerm_log_analytics_workspace.workspace.workspace_id
+}
