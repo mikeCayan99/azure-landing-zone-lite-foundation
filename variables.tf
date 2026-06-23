@@ -113,3 +113,5 @@ variable "log_analytics_workspace_retention_in_days" {
 
 
 
+
+

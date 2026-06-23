@@ -36,14 +36,14 @@ output "vnet_peering_ids" {
   }
 }
 
-output "id" {
-  value = azurerm_log_analytics_workspace.workspace.id
+output "log_analytics_workspace_id" {
+  value = module.log_analytics.id
 }
 
-output "name" {
-  value = azurerm_log_analytics_workspace.workspace.name
+output "log_analytics_workspace_name" {
+  value = module.log_analytics.name
 }
 
-output "workspace_id" {
-  value = azurerm_log_analytics_workspace.workspace.workspace_id
+output "log_analytics_workspace_workspace_id" {
+  value = module.log_analytics.workspace_id
 }
