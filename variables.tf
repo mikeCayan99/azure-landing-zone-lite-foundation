@@ -69,5 +69,15 @@ variable "subscription_id" {
   type        = string
 }
 
+variable "subnet_nsg_association" {
+  description = "Associations between subnets and NSGs"
+  type = map(object({
+    subnet                 = string
+    network_security_group = string
+  }))
+}
+
+
+
 
 

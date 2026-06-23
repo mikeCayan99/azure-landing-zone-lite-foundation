@@ -46,3 +46,12 @@ module "network_security_groups" {
   tags                = var.tags
 }
 
+module "subnet_nsg_association" {
+  source = "./modules/subnet-nsg-association"
+
+  for_each = var.subnet_nsg_association
+
+  subnet_id                 = module.subnets[each.value.subnet].id
+  network_security_group_id = module.network_security_groups[each.value.network_security_group].id
+}
+
