@@ -23,3 +23,15 @@ output "virtual_network_names" {
     for key, vnet in module.vnets : key => vnet.name
   }
 }
+
+output "vnet_peering_names" {
+  value = {
+    for key, peering in module.vnet_peering : key => peering.name
+  }
+}
+
+output "vnet_peering_ids" {
+  value = {
+    for key, peering in module.vnet_peering : key => peering.id
+  }
+}

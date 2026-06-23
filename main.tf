@@ -55,3 +55,19 @@ module "subnet_nsg_association" {
   network_security_group_id = module.network_security_groups[each.value.network_security_group].id
 }
 
+module "vnet_peering" {
+  source = "./modules/vnet-peering"
+
+  for_each = var.vnet_peerings
+
+  name                      = each.value.name
+  resource_group_name       = azurerm_resource_group.main.name
+  virtual_network_name      = module.vnets[each.value.virtual_network].name
+  remote_virtual_network_id = module.vnets[each.value.remote_virtual_network].id
+
+  allow_virtual_network_access = each.value.allow_virtual_network_access
+  allow_forwarded_traffic      = each.value.allow_forwarded_traffic
+  allow_gateway_transit        = each.value.allow_gateway_transit
+  use_remote_gateways          = each.value.use_remote_gateways
+}
+

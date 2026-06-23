@@ -66,3 +66,26 @@ app = {
   }
 
 }
+
+vnet_peerings = {
+  hub_to_spoke_workload = {
+    name                         = "peer-hub-to-spoke-workload"
+    virtual_network              = "hub"
+    remote_virtual_network       = "spoke_workload"
+    allow_virtual_network_access = true
+    allow_forwarded_traffic      = true
+    allow_gateway_transit        = false
+    use_remote_gateways          = false
+  }
+
+  spoke_workload_to_hub = {
+    name                         = "peer-spoke-workload-to-hub"
+    virtual_network              = "spoke_workload"
+    remote_virtual_network       = "hub"
+    allow_virtual_network_access = true
+    allow_forwarded_traffic      = true
+    allow_gateway_transit        = false
+    use_remote_gateways          = false
+  }
+}
+

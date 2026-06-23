@@ -77,6 +77,21 @@ variable "subnet_nsg_association" {
   }))
 }
 
+variable "vnet_peerings" {
+  description = "VNet peerings to create"
+  type = map(object({
+    name                         = string
+    virtual_network              = string
+    remote_virtual_network       = string
+    allow_virtual_network_access = bool
+    allow_forwarded_traffic      = bool
+    allow_gateway_transit        = bool
+    use_remote_gateways          = bool
+  }))
+}
+
+
+
 
 
 
