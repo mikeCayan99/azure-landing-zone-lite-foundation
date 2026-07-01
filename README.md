@@ -4,79 +4,88 @@
 
 This repository contains a lightweight Azure Landing Zone built with Terraform.
 
-The project is designed as a learning and portfolio environment to demonstrate Infrastructure as Code (IaC), Azure networking, GitHub workflows, and cloud engineering best practices.
+The project serves as a learning and portfolio environment to demonstrate Infrastructure as Code (IaC), Azure networking, GitHub Actions, and cloud engineering best practices.
 
-The goal is not to build a full enterprise-scale landing zone, but to create a modular and production-inspired foundation following modern cloud architecture principles.
+The goal is to build a modular and production-inspired Azure foundation while following modern cloud architecture principles.
 
 ---
 
 ## Architecture
 
-The current architecture is based on a Hub-and-Spoke network topology.
+Current architecture:
 
 ```text
 Resource Group
 │
 ├── Hub Virtual Network
-│   ├── Subnets
-│   └── Network Security Groups
+│   └── Shared Services Subnet
 │
 ├── Spoke Workload Virtual Network
-│   ├── Subnets
-│   └── Network Security Groups
+│   ├── App Subnet
+│   └── Data Subnet
 │
 ├── Spoke Shared Services Virtual Network
-│   ├── Subnets
-│   └── Network Security Groups
+│   └── Shared Services Subnet
+│
+├── Network Security Groups
+│
+├── Subnet ↔ NSG Associations
 │
 ├── VNet Peerings
-│   ├── Hub → Workload
-│   ├── Workload → Hub
-│   ├── Hub → Shared
-│   └── Shared → Hub
 │
-└── Log Analytics Workspace
+├── Log Analytics Workspace
+│
+└── Storage Account (Remote State Preparation)
 ```
 
 ---
 
 ## Features
 
-### Infrastructure
+### Networking
 
-* Azure Resource Group
-* Modular Virtual Network deployment
-* Modular Subnet deployment
-* Network Security Group deployment
-* Subnet to NSG associations
-* Hub-and-Spoke VNet peering
-* Log Analytics Workspace
+- Hub-and-Spoke architecture
+- Virtual Networks
+- Subnets
+- Network Security Groups
+- Subnet to NSG Associations
+- VNet Peering
+
+### Monitoring
+
+- Log Analytics Workspace
+
+### Storage
+
+- Storage Account module
+- Blob Container for future Terraform remote state
 
 ### Terraform
 
-* Reusable Terraform modules
-* Root and child module architecture
-* Variables and outputs
-* `for_each` based deployments
-* Example configuration using `terraform.tfvars.example`
+- Reusable Terraform modules
+- Root and child module architecture
+- Variables and outputs
+- `for_each` based deployments
 
 ### DevOps
 
-* GitHub Flow workflow
-* Feature branches and Pull Requests
-* GitHub Actions CI pipeline
-* Automated Terraform checks
+- GitHub Flow
+- Pull Requests
+- Feature Branches
+- GitHub Actions CI Pipeline
 
-### CI/CD Pipeline
+---
 
-The GitHub Actions workflow performs:
+## CI/CD Pipeline
 
-* `terraform fmt`
-* `terraform init`
-* `terraform validate`
-* `terraform plan`
+The GitHub Actions workflow automatically performs:
 
-Azure authentication is implemented using OpenID Connect (OIDC), eliminating the need for long-lived secrets.
+- Terraform Format Check
+- Terraform Init
+- Terraform Validate
+- Terraform Plan
+
+Azure authentication is implemented using OpenID Connect (OIDC), eliminating the need for long-lived credentials or secrets.
 
 ---
 
@@ -91,7 +100,8 @@ Azure authentication is implemented using OpenID Connect (OIDC), eliminating the
 │   ├── network-security-group
 │   ├── subnet-nsg-association
 │   ├── vnet-peering
-│   └── log-analytics
+│   ├── log-analytics
+│   └── storage-account
 ├── main.tf
 ├── variables.tf
 ├── outputs.tf
@@ -104,22 +114,22 @@ Azure authentication is implemented using OpenID Connect (OIDC), eliminating the
 
 ## Security
 
-This project follows basic security best practices:
+Security best practices implemented:
 
-* No secrets stored in Git
-* Local `terraform.tfvars` excluded via `.gitignore`
-* Example configuration provided via `terraform.tfvars.example`
-* GitHub OIDC authentication instead of client secrets
+- No secrets stored in Git
+- Local `terraform.tfvars` excluded via `.gitignore`
+- OIDC authentication for GitHub Actions
+- GitHub repository variables for Azure authentication
 
 ---
 
 ## Prerequisites
 
-* Terraform
-* Azure Subscription
-* Azure CLI
-* Git
-* GitHub Account
+- Terraform
+- Azure CLI
+- Azure Subscription
+- Git
+- GitHub Account
 
 ---
 
@@ -128,7 +138,7 @@ This project follows basic security best practices:
 Clone the repository:
 
 ```bash
-git clone https://github.com/<your-account>/azure-landing-zone-lite-foundation.git
+git clone https://github.com/mikeCayan99/azure-landing-zone-lite-foundation-.git
 ```
 
 Initialize Terraform:
@@ -137,21 +147,13 @@ Initialize Terraform:
 terraform init
 ```
 
-Create a local variables file:
-
-```bash
-copy terraform.tfvars.example terraform.tfvars
-```
-
-Review and adjust the values in `terraform.tfvars`.
-
 Validate the configuration:
 
 ```bash
 terraform validate
 ```
 
-Create an execution plan:
+Generate an execution plan:
 
 ```bash
 terraform plan
@@ -163,15 +165,16 @@ terraform plan
 
 Implemented:
 
-* Resource Group
-* Virtual Networks
-* Subnets
-* Network Security Groups
-* Subnet Associations
-* VNet Peering
-* Log Analytics
-* GitHub Actions CI
-* Azure OIDC Authentication
+- Resource Group
+- Virtual Networks
+- Subnets
+- Network Security Groups
+- Subnet Associations
+- VNet Peering
+- Log Analytics Workspace
+- Storage Account Module
+- GitHub Actions CI
+- Azure OIDC Authentication
 
 ---
 
@@ -179,24 +182,22 @@ Implemented:
 
 Planned improvements:
 
-* Remote Terraform State
-* Diagnostic Settings
-* Azure Policy (light governance)
-* RBAC examples
-* Private DNS Zones
-* Monitoring enhancements
-* Architecture diagrams
+- Remote Terraform State
+- Azure Policy (Light Governance)
+- Diagnostic Settings
+- RBAC Examples
+- Architecture Diagram
 
 ---
 
 ## Learning Objectives
 
-This repository focuses on learning and demonstrating:
+This project focuses on learning and demonstrating:
 
-* Azure networking fundamentals
-* Infrastructure as Code with Terraform
-* Modular Terraform design
-* GitHub Actions
-* CI/CD practices
-* Cloud governance fundamentals
-* Secure authentication with OIDC
+- Azure networking fundamentals
+- Infrastructure as Code with Terraform
+- Modular Terraform design
+- GitHub Actions
+- CI/CD practices
+- Cloud governance fundamentals
+- Secure authentication with OIDC
