@@ -41,4 +41,5 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -input=false -var-file="terraform.tfvars.example"  
+        run: |
+          terraform plan -input=false -var-file="terraform.tfvars.example" -var="subscription_id=${{ vars.AZURE_SUBSCRIPTION_ID }}"
