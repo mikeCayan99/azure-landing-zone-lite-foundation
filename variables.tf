@@ -70,10 +70,11 @@ variable "subscription_id" {
 }
 
 variable "subnet_nsg_association" {
-  description = "Associations between subnets and NSGs"
+  description = "Subnet to NSG associations"
+
   type = map(object({
-    subnet                 = string
-    network_security_group = string
+    subnet_key = string
+    nsg_key    = string
   }))
 }
 
@@ -105,6 +106,29 @@ variable "log_analytics_workspace_retention_in_days" {
   description = "Retention period in days for Log Analytics data"
   type        = number
   default     = 30
+}
+
+variable "storage_account_name" {
+  description = "Storage account name"
+  type        = string
+}
+
+variable "storage_account_tier" {
+  description = "Storage account tier"
+  type        = string
+  default     = "Standard"
+}
+
+variable "storage_account_replication_type" {
+  description = "Storage account replication type"
+  type        = string
+  default     = "LRS"
+}
+
+variable "storage_container_name" {
+  description = "Storage container name"
+  type        = string
+  default     = "tfstate"
 }
 
 

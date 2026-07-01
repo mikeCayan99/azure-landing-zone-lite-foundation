@@ -14,3 +14,6 @@ output "address_space" {
   value = azurerm_virtual_network.virtual_network.address_space
 }
 
+output "id" {
+  value = azurerm_virtual_network.virtual_network.id
+}

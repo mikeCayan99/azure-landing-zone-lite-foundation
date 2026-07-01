@@ -51,8 +51,8 @@ module "subnet_nsg_association" {
 
   for_each = var.subnet_nsg_association
 
-  subnet_id                 = module.subnets[each.value.subnet].id
-  network_security_group_id = module.network_security_groups[each.value.network_security_group].id
+  subnet_id                 = module.subnets[each.value.subnet_key].id
+  network_security_group_id = module.network_security_groups[each.value.nsg_key].id
 }
 
 module "vnet_peering" {
@@ -80,4 +80,16 @@ module "log_analytics" {
   sku                 = var.log_analytics_workspace_sku
   retention_in_days   = var.log_analytics_workspace_retention_in_days
   tags                = var.tags
-} 
+}
+
+module "storage_account" {
+  source = "./modules/storage-account"
+
+  name                     = var.storage_account_name
+  resource_group_name      = azurerm_resource_group.main.name
+  location                 = var.location
+  account_tier             = var.storage_account_tier
+  account_replication_type = var.storage_account_replication_type
+  container_name           = var.storage_container_name
+  tags                     = var.tags
+}

@@ -47,3 +47,15 @@ output "log_analytics_workspace_name" {
 output "log_analytics_workspace_workspace_id" {
   value = module.log_analytics.workspace_id
 }
+
+output "storage_account_name" {
+  value = module.storage_account.name
+}
+
+output "storage_account_id" {
+  value = module.storage_account.id
+}
+
+output "storage_container_name" {
+  value = module.storage_account.container_name
+}
