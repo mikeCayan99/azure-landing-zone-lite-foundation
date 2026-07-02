@@ -109,3 +109,12 @@ module "policy_allowed_locations" {
     }
   }
 }
+
+module "storage_account_diagnostic_settings" {
+  source = "./modules/diagnostic-setting"
+
+  name = "diag-storage-account"
+
+  target_resource_id         = module.storage_account.id
+  log_analytics_workspace_id = module.log_analytics.id
+}
