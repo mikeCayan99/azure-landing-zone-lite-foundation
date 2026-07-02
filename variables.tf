@@ -132,6 +132,12 @@ variable "storage_container_name" {
 }
 
 
+variable "allowed_locations" {
+  description = "List of allowed Azure regions"
+  type        = list(string)
+  default     = ["westeurope"]
+}
+
 
 
 
