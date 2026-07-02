@@ -93,3 +93,19 @@ module "storage_account" {
   container_name           = var.storage_container_name
   tags                     = var.tags
 }
+
+module "policy_allowed_locations" {
+  source = "./modules/policy-assignment"
+
+  name                = "allowed-locations-dev"
+  display_name        = "Allowed locations for dev landing zone"
+  description         = "Restricts resource deployment to approved Azure regions."
+  resource_group_id   = azurerm_resource_group.main.id
+  policy_display_name = "Allowed locations"
+
+  parameters = {
+    listOfAllowedLocations = {
+      value = var.allowed_locations
+    }
+  }
+}
