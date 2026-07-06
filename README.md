@@ -241,6 +241,14 @@ terraform plan
 
 ---
 
+## Note
+
+> This repository is designed as a learning and portfolio project.
+>
+> To keep the project free to use and avoid unnecessary Azure costs, the complete landing zone has **not been deployed** by default.
+>
+> All infrastructure changes are validated using `terraform plan`. Resources can be deployed individually when required.
+
 ## Current Status
 
 Implemented:
