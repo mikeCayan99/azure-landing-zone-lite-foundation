@@ -1,14 +1,7 @@
 resource "azurerm_resource_group" "main" {
   name     = "rg-landing-zone-dev-westeurope"
-  location = "West Europe"
-
-
-  tags = {
-    environment = "dev"
-    project     = "azure-landing-zone-foundation"
-    managed_by  = "terraform"
-  }
-
+  location = var.location
+  tags     = var.tags
 }
 
 module "vnets" {
