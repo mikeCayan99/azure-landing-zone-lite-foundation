@@ -218,7 +218,7 @@ Security best practices implemented:
 Clone the repository:
 
 ```bash
-git clone https://github.com/mikeCayan99/azure-landing-zone-lite-foundation-.git
+git clone https://github.com/mikeCayan99/azure-landing-zone-lite-foundation.git
 ```
 
 Initialize Terraform:
