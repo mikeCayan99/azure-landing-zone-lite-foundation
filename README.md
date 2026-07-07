@@ -245,9 +245,35 @@ terraform plan
 
 > This repository is designed as a learning and portfolio project.
 >
-> To keep the project free to use and avoid unnecessary Azure costs, the complete landing zone has **not been deployed** by default.
+> To keep Azure costs low and make the project easy to explore, the complete landing zone is **not deployed automatically**.
 >
-> All infrastructure changes are validated using `terraform plan`. Resources can be deployed individually when required.
+> The infrastructure is validated using `terraform plan`, and individual components can be deployed independently when required.
+
+---
+
+## Project Scope
+
+This repository focuses on building a lightweight Azure Landing Zone foundation that follows production-inspired design principles while remaining cost-efficient and easy to understand.
+
+To keep the project practical for learning and portfolio purposes, the following services are intentionally **not deployed by default**:
+
+- Azure Firewall
+- Azure Bastion
+- VPN Gateway
+- Azure DDoS Protection
+- Microsoft Defender for Cloud
+
+Instead, the primary focus is on:
+
+- Modular Terraform architecture
+- Azure networking
+- Infrastructure as Code (IaC)
+- Azure governance
+- Monitoring and diagnostics
+- GitHub Actions
+- Secure authentication using Azure OpenID Connect (OIDC)
+
+These services are planned as future enhancements and will be added as the project evolves.
 
 ## Current Status
 
