@@ -111,3 +111,11 @@ module "storage_account_diagnostic_settings" {
   target_resource_id         = module.storage_account.id
   log_analytics_workspace_id = module.log_analytics.id
 }
+
+module "rbac_reader" {
+  source = "./modules/role-assignment"
+
+  scope                = azurerm_resource_group.main.id
+  role_definition_name = "Reader"
+  principal_id         = var.rbac_principal_id
+}
