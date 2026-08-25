@@ -138,6 +138,11 @@ variable "allowed_locations" {
   default     = ["westeurope"]
 }
 
+variable "rbac_principal_id" {
+  description = "Object ID of the principal receiving the RBAC role"
+  type        = string
+}
+
 
 
 

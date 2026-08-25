@@ -98,3 +98,4 @@ storage_account_tier             = "Standard"
 storage_account_replication_type = "LRS"
 storage_container_name           = "tfstate"
 
+rbac_principal_id = "00000000-0000-0000-0000-000000000000"
