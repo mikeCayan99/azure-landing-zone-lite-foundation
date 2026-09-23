@@ -1,20 +1,8 @@
 # Azure Landing Zone Lite Foundation
 
-> **Status:** 🚧 Work in Progress
+A modular Azure Landing Zone foundation built with Terraform and GitHub Actions.
 
-A lightweight Azure Landing Zone built with Terraform and GitHub Actions, focusing on modular Infrastructure as Code, Azure networking, governance, monitoring, RBAC, and secure CI authentication.
-
----
-
-## Overview
-
-This repository demonstrates the incremental development of a lightweight Azure Landing Zone using Terraform.
-
-The project provides a modular Azure foundation based on a Hub-and-Spoke network architecture and combines networking, governance, monitoring, role-based access control, remote state preparation, and GitHub Actions.
-
-Infrastructure changes are developed through feature branches and pull requests and validated through an automated Terraform CI pipeline.
-
-The project intentionally focuses on core Landing Zone concepts without deploying expensive Azure services that would require a permanently running environment.
+The architecture combines Hub-and-Spoke networking, governance, observability, role-based access control, remote state preparation, and secure CI authentication using Azure OpenID Connect (OIDC).
 
 ---
 
@@ -30,8 +18,8 @@ flowchart TB
     RG["Azure Resource Group"]
 
     HUB["Hub VNet"]
-    SPOKE1["Spoke Workload VNet"]
-    SPOKE2["Spoke Shared Services VNet"]
+    SPOKE1["Workload Spoke VNet"]
+    SPOKE2["Shared Services Spoke VNet"]
 
     NSG["Network Security Groups"]
 
@@ -68,35 +56,34 @@ flowchart TB
     RG --> STORAGE
 ```
 
----
-
-## Current Infrastructure
-
-The Landing Zone currently includes:
-
-- Azure Resource Group
-- Hub Virtual Network
-- Workload Spoke Virtual Network
-- Shared Services Spoke Virtual Network
-- Multiple Azure Subnets
-- Network Security Groups
-- Subnet-to-NSG Associations
-- VNet Peering
-- Log Analytics Workspace
-- Diagnostic Settings
-- Azure Policy assignment
-- Azure RBAC role assignment
-- Storage Account
-- Terraform remote state bootstrap configuration
-- Modular Terraform architecture
-- GitHub Actions CI
-- Azure OpenID Connect authentication
+The platform follows a lightweight Hub-and-Spoke architecture with centralized infrastructure components and isolated workload networks.
 
 ---
 
-## Terraform Architecture
+## Infrastructure Components
 
-Infrastructure is separated into reusable Terraform modules.
+The foundation includes:
+
+* Azure Resource Group
+* Hub Virtual Network
+* Workload Spoke Virtual Network
+* Shared Services Spoke Virtual Network
+* Multiple Azure Subnets
+* Network Security Groups
+* Subnet-to-NSG Associations
+* VNet Peering
+* Log Analytics Workspace
+* Diagnostic Settings
+* Azure Policy Assignment
+* Azure RBAC Role Assignment
+* Azure Storage Account
+* Terraform Remote State Bootstrap
+* GitHub Actions CI
+* Azure OpenID Connect Authentication
+
+---
+
+## Repository Structure
 
 ```text
 .
@@ -128,15 +115,13 @@ Infrastructure is separated into reusable Terraform modules.
 └── README.md
 ```
 
-The root module orchestrates the individual child modules and connects their dependencies through explicit inputs and outputs.
-
-This structure keeps individual infrastructure components isolated and reusable while maintaining a central configuration for the Landing Zone.
+Infrastructure components are separated into reusable Terraform modules and orchestrated through the root module using explicit inputs and outputs.
 
 ---
 
 ## Networking
 
-The network architecture follows a lightweight Hub-and-Spoke design.
+The network architecture follows a Hub-and-Spoke model.
 
 ```text
                      Hub VNet
@@ -152,19 +137,19 @@ The network architecture follows a lightweight Hub-and-Spoke design.
       Subnet Subnet                Subnet
 ```
 
-The Hub provides the central network foundation while separate Spoke VNets represent isolated workload and shared-service environments.
+The Hub provides the central network foundation while dedicated Spoke VNets separate workload and shared-service environments.
 
-Network Security Groups are associated with the appropriate subnets through dedicated Terraform modules.
+Network Security Groups are associated with individual subnets through reusable Terraform modules.
 
-This architecture provides a foundation that can later be extended with services such as Azure Firewall, Bastion, Private Endpoints, or hybrid connectivity.
+The architecture can be extended with additional platform services such as Private Endpoints, Private DNS, Azure Firewall, Bastion, or hybrid connectivity.
 
 ---
 
 ## Governance
 
-Azure Policy is used to demonstrate governance controls within the Landing Zone.
+Azure Policy provides governance controls for the Landing Zone.
 
-The current implementation includes an Allowed Locations policy assignment.
+The current configuration includes an Allowed Locations policy assignment to control the Azure regions in which resources can be deployed.
 
 ```text
 Azure Resource Group
@@ -176,35 +161,17 @@ Allowed Locations
 Deployment Governance
 ```
 
-This provides a lightweight example of how organizations can enforce infrastructure requirements through policy rather than relying only on developer conventions.
-
-Additional policies can be introduced as the Landing Zone evolves.
+The modular implementation allows additional governance policies to be introduced without restructuring the core infrastructure.
 
 ---
 
 ## Security
 
-Security is implemented using Azure-native identity and authorization mechanisms.
-
 ### Azure RBAC
 
-A reusable Terraform role-assignment module provides Azure Role-Based Access Control.
+Role-Based Access Control is implemented through a reusable Terraform role-assignment module.
 
-The current implementation demonstrates a Reader role assignment at Resource Group scope.
-
-```text
-Configured Principal
-        ↓
-Principal ID
-        ↓
-Azure RBAC
-        ↓
-Reader Role
-        ↓
-Resource Group Scope
-```
-
-The RBAC module separates three important authorization properties:
+The configuration separates the three primary authorization properties:
 
 ```text
 Principal
@@ -214,11 +181,11 @@ Role
 Scope
 ```
 
-This makes role assignments reusable and allows additional identities and roles to be introduced without duplicating Terraform resources.
+The current implementation includes a Reader role assignment at Resource Group scope.
 
 ### OpenID Connect
 
-GitHub Actions authenticates against Azure using OpenID Connect (OIDC).
+GitHub Actions authenticates with Azure using OpenID Connect.
 
 ```text
 GitHub Actions
@@ -230,23 +197,21 @@ Microsoft Entra ID
 Azure
 ```
 
-This avoids storing long-lived Azure client secrets in GitHub.
+OIDC removes the requirement to store long-lived Azure client secrets in GitHub.
 
-No passwords, API keys, access keys, or cloud credentials are intentionally stored in this repository.
+No passwords, API keys, access keys, or cloud credentials are intentionally stored in the repository.
 
 ---
 
 ## Observability
 
-The Landing Zone includes Azure-native monitoring components.
+### Log Analytics
 
-### Log Analytics Workspace
-
-A Log Analytics Workspace provides the central foundation for collecting and querying Azure telemetry.
+A Log Analytics Workspace provides the central foundation for Azure telemetry and monitoring.
 
 ### Diagnostic Settings
 
-Diagnostic Settings demonstrate how Azure resource telemetry can be forwarded to the central Log Analytics Workspace.
+Diagnostic Settings forward supported Azure resource telemetry to the central Log Analytics Workspace.
 
 ```text
 Azure Resource
@@ -256,32 +221,24 @@ Diagnostic Settings
 Log Analytics Workspace
 ```
 
-This provides the foundation for centralized monitoring and can later be extended with alerts, dashboards, additional diagnostic categories, and Microsoft Defender integrations.
+The monitoring architecture can be extended with alerts, additional diagnostic categories, dashboards, and security monitoring.
 
 ---
 
 ## Terraform Remote State
 
-The repository contains a dedicated Terraform bootstrap configuration:
+A dedicated bootstrap configuration is located under:
 
 ```text
 bootstrap/tfstate
 ```
 
-Its purpose is to prepare the Azure infrastructure required for storing Terraform state remotely.
-
-The bootstrap configuration creates the foundation for:
-
-- Resource Group
-- Storage Account
-- Blob Container
-
-Conceptually:
+It prepares the Azure infrastructure required for Terraform remote state:
 
 ```text
 Bootstrap Terraform
         ↓
-Azure Resource Group
+Resource Group
         ↓
 Storage Account
         ↓
@@ -290,38 +247,30 @@ Blob Container
 Terraform Remote State
 ```
 
-The bootstrap project exists because the Storage Account used by the Terraform backend must exist before the main Terraform configuration can use it.
-
-The repository also contains:
+The repository also provides:
 
 ```text
 backend.tf.example
 ```
 
-After the backend infrastructure has been deployed, this file can be used as the basis for configuring the Azure Storage backend.
+After provisioning the backend infrastructure, the configuration can be used as the basis for enabling the Azure Storage backend.
 
-A state migration can then be performed using:
+State migration can then be performed with:
 
 ```bash
 terraform init -migrate-state
 ```
 
-The remote backend is intentionally prepared but not enabled by default.
-
-Terraform state files are not stored in Git.
+Terraform state files are excluded from Git.
 
 ---
 
 ## Continuous Integration
 
-GitHub Actions provides automated Terraform validation.
-
-The current workflow follows this process:
+GitHub Actions validates Terraform infrastructure changes before they are merged into `main`.
 
 ```text
 Feature Branch
-      ↓
-Push
       ↓
 Pull Request
       ↓
@@ -337,27 +286,23 @@ Terraform Validate
       ↓
 Terraform Plan
       ↓
-Pull Request Check
+Merge
 ```
 
-The pipeline validates infrastructure changes before they are merged into `main`.
-
-Azure authentication uses OpenID Connect rather than long-lived credentials.
+The pipeline provides automated validation while Azure authentication is handled through short-lived OIDC credentials.
 
 ---
 
 ## Git Workflow
 
-Infrastructure changes are developed through feature branches and pull requests.
-
-Typical workflow:
+Infrastructure changes follow a branch-based development workflow:
 
 ```text
 main
   ↓
 feature/*
   ↓
-Development
+Infrastructure Change
   ↓
 terraform fmt
   ↓
@@ -373,22 +318,18 @@ Pull Request
   ↓
 GitHub Actions
   ↓
-Successful CI
-  ↓
-Merge into main
+Merge
 ```
 
-Feature branches are removed after successful integration.
-
-This keeps the `main` branch stable while maintaining a visible history of infrastructure changes.
+This keeps the `main` branch stable while maintaining a traceable history of infrastructure changes.
 
 ---
 
-## Deployment Policy
+## Deployment Approach
 
-This project currently follows a validation-first deployment approach.
+Infrastructure changes are validated through Terraform and GitHub Actions before deployment.
 
-Terraform commands used during development include:
+Typical commands include:
 
 ```bash
 terraform init
@@ -397,140 +338,77 @@ terraform validate
 terraform plan
 ```
 
-The complete Landing Zone is not automatically deployed using `terraform apply`.
+Deployment remains an explicit operation:
 
-Infrastructure changes are instead reviewed through Terraform plans and CI validation.
+```bash
+terraform apply
+```
 
-This allows the project to demonstrate:
+Resources can be removed when no longer required:
 
-- Infrastructure as Code
-- Azure architecture
-- Terraform module design
-- Networking
-- Governance
-- RBAC
-- Monitoring
-- CI/CD
-- Secure cloud authentication
+```bash
+terraform destroy
+```
 
-without requiring a permanently running Azure environment.
+This approach separates infrastructure validation from deployment and prevents unintended resource creation.
 
 ---
 
 ## Cost Controls
 
-The project is intentionally designed with Azure cost awareness in mind.
+The architecture is designed with Azure cost awareness in mind.
 
 Current design decisions include:
 
-- No automated `terraform apply`
-- No permanently deployed Landing Zone
-- Validation-focused CI
-- Remote state infrastructure separated through a bootstrap configuration
-- Expensive Azure networking services excluded from the current deployment scope
+* Explicit rather than automatic infrastructure deployment
+* Terraform plan validation through CI
+* Dedicated remote-state bootstrap configuration
+* Modular architecture that allows optional services to be introduced independently
+* Cost-intensive networking services excluded from the default configuration
 
-Services such as the following are therefore not deployed by default:
-
-- Azure Firewall
-- Azure Bastion
-- VPN Gateway
-- Azure DDoS Protection
-- Microsoft Defender for Cloud
-
-These services can be introduced later without changing the fundamental architecture of the project.
+Services such as Azure Firewall, Bastion, VPN Gateway, DDoS Protection, and Microsoft Defender for Cloud can be introduced as architecture extensions when required.
 
 ---
 
 ## Technologies
 
-- Microsoft Azure
-- Terraform
-- Git
-- GitHub
-- GitHub Actions
-- Microsoft Entra ID
-- OpenID Connect
-- Azure Virtual Network
-- Azure Network Security Groups
-- Azure RBAC
-- Azure Policy
-- Azure Monitor
-- Log Analytics
-- Azure Storage
+* Microsoft Azure
+* Terraform
+* Git
+* GitHub
+* GitHub Actions
+* Microsoft Entra ID
+* OpenID Connect
+* Azure Virtual Network
+* Azure Network Security Groups
+* Azure RBAC
+* Azure Policy
+* Azure Monitor
+* Log Analytics
+* Azure Storage
 
 ---
 
-## Current Engineering Focus
+## Architecture Extensions
 
-The project currently demonstrates four main areas.
+The modular foundation supports further platform capabilities such as:
 
-### Networking
-
-```text
-Hub-and-Spoke
-→ Subnets
-→ NSGs
-→ VNet Peering
-```
-
-### Governance & Security
-
-```text
-Azure Policy
-→ Governance
-
-Azure RBAC
-→ Authorization
-```
-
-### Observability
-
-```text
-Azure Resources
-→ Diagnostic Settings
-→ Log Analytics
-```
-
-### DevOps
-
-```text
-Feature Branch
-→ Pull Request
-→ GitHub Actions
-→ OIDC
-→ Terraform Plan
-→ Merge
-```
+* Managed Identities
+* Azure Key Vault
+* Private Endpoints
+* Private DNS Zones
+* Additional Azure Policies
+* Extended RBAC configurations
+* Monitoring alerts
+* Additional Diagnostic Settings
+* Environment-specific configurations
+* Remote State integration
+* Additional security hardening
 
 ---
 
-## Planned Improvements
+## Security Notice
 
-Future improvements may include:
+Terraform state files, credentials, passwords, access keys, and other sensitive configuration must not be committed to this repository.
 
-- Additional Azure RBAC examples
-- Custom Azure roles
-- Azure Key Vault integration
-- Managed Identities
-- Private Endpoints
-- Private DNS Zones
-- Additional Azure Policies
-- Extended Diagnostic Settings
-- Monitoring alerts
-- Remote State migration
-- Environment-specific configurations
-- Additional security hardening
-
-Cost-intensive services such as Azure Firewall, Bastion, VPN Gateway, and DDoS Protection may be added later as optional architecture extensions.
-
----
-
-## Disclaimer
-
-This repository is a public Cloud/DevOps portfolio project and is under active development.
-
-It demonstrates Terraform, Azure Landing Zone concepts, networking, governance, security, observability, and CI workflows.
-
-The repository does not currently represent a permanently deployed production environment, and no automated infrastructure deployment is performed.
-
-Real Terraform state files, credentials, passwords, and other sensitive configuration must not be committed to this repository.
+Authentication from GitHub Actions to Azure is implemented using OpenID Connect to avoid long-lived cloud credentials.
