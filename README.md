@@ -1,8 +1,10 @@
 # Azure Landing Zone Lite Foundation
 
-A modular Azure Landing Zone foundation built with Terraform and GitHub Actions.
+A modular Azure landing zone foundation built with Terraform and GitHub Actions.
 
-The architecture combines Hub-and-Spoke networking, governance, observability, role-based access control, remote state preparation, and secure CI authentication using Azure OpenID Connect (OIDC).
+The implementation combines Hub-and-Spoke networking, governance, observability, role-based access control, remote-state preparation, and secure CI authentication through Azure OpenID Connect (OIDC).
+
+The scope focuses on a compact Azure foundation that can be extended with additional platform and security services as required.
 
 ---
 
@@ -56,7 +58,7 @@ flowchart TB
     RG --> STORAGE
 ```
 
-The platform follows a lightweight Hub-and-Spoke architecture with centralized infrastructure components and isolated workload networks.
+The architecture follows a Hub-and-Spoke model with centralized platform components and separated workload networks.
 
 ---
 
@@ -402,7 +404,6 @@ The modular foundation supports further platform capabilities such as:
 * Monitoring alerts
 * Additional Diagnostic Settings
 * Environment-specific configurations
-* Remote State integration
 * Additional security hardening
 
 ---
